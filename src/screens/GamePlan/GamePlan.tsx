@@ -1,7 +1,7 @@
-import { SheetTable } from "./components/SheetTable";
-import { useGoogleSheets } from "./hooks/useGoogleSheets";
+import { SheetTable } from "../../components/SheetTable";
+import { useGoogleSheets } from "../../hooks/useGoogleSheets";
 
-export const App = () => {
+export const GamePlan = () => {
   const { data, isLoading } = useGoogleSheets();
 
   if (isLoading) return <>Loading...</>;
