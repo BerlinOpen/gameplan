@@ -37,20 +37,30 @@
 
 
 /* Mobile layout */
+/* Mobile layout */
 @media (max-width: 768px) {
   .coming-soon {
-    align-items: flex-end;
+    justify-content: center;
     padding: 0;
   }
 
-  .logo-container img {
-    width: 140%;
+  .logo-container {
+    position: absolute;   /* Don't let it affect layout */
+    top: 40px;            /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    /* max-width: 320px; */
+    /* height: 180px; */
+    z-index: 0;
   }
 
   .glass-panel {
+    position: relative;
+    z-index: 1;
     width: 100%;
     max-width: none;
-    padding: 25px 20px 35px;
-    border-radius: 25px 25px 0 0;
+    border-radius: 50px 50px 0 0;
+    margin-top: auto;     /* Keeps it at the bottom */
   }
 }
