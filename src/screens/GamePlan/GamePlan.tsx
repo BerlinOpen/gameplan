@@ -1,4 +1,3 @@
-import { LiveGamesCarousel } from '../../components/Carousel/Carousel';
 import { Timeline } from '../../components/GamePlan/Timeline';
 import { FiltersProvider } from '../../context/FiltersContext';
 import { useGoogleSheets } from '../../hooks/useGoogleSheets';
