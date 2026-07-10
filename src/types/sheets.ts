@@ -1,16 +1,53 @@
-export type SheetTitle = { properties: { title: string } };
-
 export type SheetRow = string[];
 
-export type SheetObject= { name: string, rows: SheetRow[] };
+export type Field = 'field1' | 'field2';
+export type Division = 'low contact' | 'high contact';
 
-export interface TimeLeft {
-  days?: number;
-  hours?: number;
-  minutes?: number;
-  seconds?: number;
-}
+export type Game = {
+  field: Field;
+  dateTime: string;
+  matchup: string[];
+  results: number[];
+  division: Division;
+  finalHigh?: boolean;
+  finalLow?: boolean;
+};
 
-export interface CountdownTimerProps {
-  targetDate: string;
-}
+export type GamesByStatus = {
+  upcoming: Game[];
+  live: Game[];
+  ended: Game[];
+};
+
+export type EventStatus = 'upcoming' | 'live' | 'ended';
+
+export type ActiveFilter =
+  | {
+      filter: 'division';
+      value: Division;
+    }
+  | {
+      filter: 'field';
+      value: Field;
+    }
+  | {
+      filter: 'name';
+      value: string;
+    }
+  | {
+      filter: 'search';
+      value: string;
+    }
+  | {
+      filter: 'day';
+      value: string;
+    }
+  | {
+      filter: 'status';
+      value: EventStatus;
+    };
+
+export type Option = {
+  value: string;
+  label: string;
+};

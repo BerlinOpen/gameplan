@@ -1,4 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Chewy&display=swap");
+@import 'tailwindcss';
+
+@theme {
+  --color-og-yellow: #fff2bd;
+  --color-og-red: #5a100e;
+  --color-og-green: #6b923f;
+  --color-basic: #3b3b3b;
+  --color-light: #ababab;
+  --color-hover: #f0f0f0;
+}
 
 html,
 body,
@@ -6,7 +15,30 @@ body,
   width: 100%;
   height: 100%;
   margin: 0;
-  overflow: hidden;
-  font-family: "Chewy", cursive;
+  font-family: 'Roboto', sans-serif;
+  color: #3b3b3b;
+  overflow: scroll;
 }
 
+body {
+  background-color: #fff2bd;
+  background-image: url('./assets/Logo.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+
+#root {
+  background: rgba(255, 242, 189, 0.5);
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

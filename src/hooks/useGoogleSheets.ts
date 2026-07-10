@@ -7,7 +7,7 @@ export function useGoogleSheets() {
         queryFn: loadAllSheets,
 
         refetchInterval: 120000,
-        staleTime: 120000,
-        refetchOnWindowFocus: true
+        refetchIntervalInBackground: true,
+        staleTime: 0,
     });
 }
