@@ -10,7 +10,7 @@ export const SearchInput = () => {
 
   return (
     <div className="relative md:w-64 w-full flex items-center">
-      <Search size={16} className="absolute left-3 text-light" />
+      <Search size={16} className="absolute left-3 text-basic" />
 
       <input
         type="text"
@@ -22,7 +22,7 @@ export const SearchInput = () => {
           w-full
           rounded-full
           border
-          border-light
+          border-basic
           bg-transparent
           pl-10
           pr-10
@@ -54,7 +54,7 @@ export const SearchInput = () => {
           "
           aria-label="Clear search"
         >
-          <X size={16} className="text-light" />
+          <X size={16} className="text-basic" />
         </button>
       )}
     </div>

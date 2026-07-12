@@ -12,7 +12,7 @@ export const GameCard = ({ game }: Props) => {
   const status = getEventStatus(game);
 
   const statusStyles = {
-    upcoming: 'bg-white !border-white/60',
+    upcoming: 'bg-opposite !border-opposite/60',
     live: '!bg-green-500/40 !border-green-500/60',
     ended: '!bg-gray-500/40 !border-gray-500/60',
   };
@@ -53,6 +53,7 @@ export const GameCard = ({ game }: Props) => {
                 text-sm
                 font-medium
                 md:text-base
+                text-basic
               "
         >
           {game.matchup[0]}
@@ -66,8 +67,9 @@ export const GameCard = ({ game }: Props) => {
             py-1
             text-sm
             font-bold
-            whitespace-nowrap
+            space-nowrap
             md:px-3
+            text-basic
           "
         >
           {result}
@@ -79,6 +81,7 @@ export const GameCard = ({ game }: Props) => {
             text-sm
             font-medium
             md:text-base
+            text-basic
           "
         >
           {game.matchup[1]}

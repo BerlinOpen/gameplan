@@ -22,22 +22,18 @@ export interface TimeBlockProps {
 
 const TimeBlock: React.FC<TimeBlockProps> = ({ value, label }) => (
   <div
-    className="
+    className={`
       w-18 sm:w-20
       rounded-2xl
-      border border-white/30
-      bg-white/20
-      backdrop-blur-xl
-      shadow-lg
       px-3 py-4
       text-center
-    "
+      ${glassy}`}
   >
     <p className="font-['Chewy'] text-3xl font-extrabold text-og-green">
       {value}
     </p>
 
-    <p className="font-['Chewy'] mt-1 text-xs uppercase tracking-widest text-gray-600">
+    <p className="font-['Chewy'] mt-1 text-xs uppercase tracking-widest text-light">
       {label}
     </p>
   </div>
@@ -144,7 +140,7 @@ export const CountdownModal = ({ open, onClose }: CountdownModalProps) => {
         >
           <button
             onClick={onClose}
-            className="absolute right-4 top-4 rounded-full p-2 hover:bg-white/20 cursor-pointer"
+            className="absolute right-4 top-4 rounded-full p-2 hover:bg-opposite/20 cursor-pointer"
             aria-label="Close"
           >
             <X size={20} className="text-og-red" />

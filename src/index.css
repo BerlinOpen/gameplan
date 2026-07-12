@@ -2,17 +2,27 @@
 
 @theme {
   --color-og-yellow: #fff2bd;
+  --color-og-yellow-overlay: rgba(255, 242, 189, 0.5);
   --color-og-red: #5a100e;
   --color-og-green: #6b923f;
   --color-basic: #3b3b3b;
   --color-light: #ababab;
-  --color-hover: #f0f0f0;
+  --color-hover: #767262;
+  --color-opposite: #f0f0f0;
 }
-/* 
-.dark {
-  --color-bg: rgb(59 59 59);
-  --color-text: rgb(255 255 255);
-} */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-og-yellow: #767262;
+    --color-og-yellow-overlay: rgba(118, 114, 98, 0.5);
+    --color-og-red: #5a100e;
+    --color-og-green: #a4db5c;
+    --color-basic: #f0f0f0;
+    --color-light: #ababab;
+    --color-hover: #f0f0f0;
+    --color-opposite: #3b3b3b;
+  }
+}
 
 html,
 body,
@@ -21,12 +31,12 @@ body,
   height: 100%;
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  color: #3b3b3b;
+  color: var(--color-basic);
   overflow-y: auto;
 }
 
 html {
-  background-color: #fff2bd;
+  background-color: var(--color-og-yellow);
 }
 
 body {
@@ -37,8 +47,7 @@ body {
 }
 
 #root {
-  background: rgba(255, 242, 189, 0.5);
-  /* background: rgba(59, 59, 59, 0.7); */
+  background: var(--color-og-yellow-overlay);
 }
 
 @layer utilities {

@@ -1,1 +1,1 @@
-export const glassy = `border border-white/60 bg-white/40 backdrop-blur-xl shadow-md`;
+export const glassy = `border border-opposite/60 bg-opposite/40 backdrop-blur-lg shadow-md`;

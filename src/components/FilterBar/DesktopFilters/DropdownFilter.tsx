@@ -157,7 +157,7 @@ const DropdownFilter = ({
               max-h-64
               overflow-y-auto
               rounded-sm
-              bg-white
+              bg-opposite
               shadow-lg
               border
               border-transparent
