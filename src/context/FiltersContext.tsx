@@ -17,16 +17,20 @@ interface FiltersContextValue {
   search?: string;
   setSearch: React.Dispatch<React.SetStateAction<string | undefined>>;
 
-  name?: string;
-  setName: React.Dispatch<React.SetStateAction<string | undefined>>;
+  names: string[];
+  setNames: React.Dispatch<React.SetStateAction<string[]>>;
+  toggleName: (name: string) => void;
 
-  day?: string;
-  setDay: React.Dispatch<React.SetStateAction<string | undefined>>;
+  days: string[];
+  setDays: React.Dispatch<React.SetStateAction<string[]>>;
+  toggleDay: (name: string) => void;
 
-  status?: EventStatus;
-  setStatus: React.Dispatch<React.SetStateAction<EventStatus | undefined>>;
+  statuses: EventStatus[];
+  setStatuses: React.Dispatch<React.SetStateAction<EventStatus[]>>;
+  toggleStatus: (status: EventStatus) => void;
 
   filters: ActiveFilter[];
+  clearFilters: () => void;
 }
 
 const FiltersContext = createContext<FiltersContextValue | undefined>(
@@ -36,10 +40,11 @@ const FiltersContext = createContext<FiltersContextValue | undefined>(
 export const FiltersProvider = ({ children }: { children: ReactNode }) => {
   const [division, setDivision] = useState<Division>();
   const [field, setField] = useState<Field>();
-  const [name, setName] = useState<string>();
   const [search, setSearch] = useState<string>();
-  const [day, setDay] = useState<string>();
-  const [status, setStatus] = useState<EventStatus>();
+
+  const [names, setNames] = useState<string[]>([]);
+  const [days, setDays] = useState<string[]>([]);
+  const [statuses, setStatuses] = useState<EventStatus[]>([]);
 
   const filters = useMemo<ActiveFilter[]>(() => {
     const active: ActiveFilter[] = [];
@@ -58,13 +63,6 @@ export const FiltersProvider = ({ children }: { children: ReactNode }) => {
       });
     }
 
-    if (name) {
-      active.push({
-        filter: 'name',
-        value: name,
-      });
-    }
-
     if (search) {
       active.push({
         filter: 'search',
@@ -72,22 +70,56 @@ export const FiltersProvider = ({ children }: { children: ReactNode }) => {
       });
     }
 
-    if (day) {
+    names.forEach((name) =>
+      active.push({
+        filter: 'name',
+        value: name,
+      }),
+    );
+
+    days.forEach((day) =>
       active.push({
         filter: 'day',
         value: day,
-      });
-    }
+      }),
+    );
 
-    if (status) {
+    statuses.forEach((status) =>
       active.push({
         filter: 'status',
         value: status,
-      });
-    }
+      }),
+    );
 
     return active;
-  }, [division, field, name, day, status, search]);
+  }, [division, field, search, names, days, statuses]);
+
+  const toggleName = (name: string) =>
+    setNames((prev) =>
+      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name],
+    );
+
+  const toggleDay = (day: string) => {
+    console.log(day);
+    return setDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
+    );
+  };
+
+  const toggleStatus = (status: EventStatus) =>
+    setStatuses((prev) =>
+      prev.includes(status)
+        ? prev.filter((s) => s !== status)
+        : [...prev, status],
+    );
+
+  const clearFilters = () => {
+    setDivision(undefined);
+    setField(undefined);
+    setNames([]);
+    setDays([]);
+    setStatuses([]);
+  };
 
   return (
     <FiltersContext.Provider
@@ -96,15 +128,23 @@ export const FiltersProvider = ({ children }: { children: ReactNode }) => {
         setDivision,
         field,
         setField,
-        name,
-        setName,
-        day,
-        setDay,
-        status,
-        setStatus,
         search,
         setSearch,
+
+        names,
+        setNames,
+        toggleName,
+
+        days,
+        setDays,
+        toggleDay,
+
+        statuses,
+        setStatuses,
+        toggleStatus,
+
         filters,
+        clearFilters,
       }}
     >
       {children}

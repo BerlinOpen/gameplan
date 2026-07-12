@@ -17,18 +17,18 @@ body,
   margin: 0;
   font-family: 'Roboto', sans-serif;
   color: #3b3b3b;
-  overflow: scroll;
+  overflow-y: auto;
+  background-color: #fff2bd;
 }
 
-body {
-  background-color: #fff2bd;
+.ImageHolder {
   background-image: url('./assets/Logo.svg');
   background-position: center;
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: 60%;
 }
 
-#root {
+.ImageShadow {
   background: rgba(255, 242, 189, 0.5);
 }
 

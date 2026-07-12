@@ -7,21 +7,30 @@ import type {
   Game,
 } from '../types/sheets';
 
-export const filterByDivision = (games: Game[], division: Division) =>
-  games.filter((game) => game.division === division);
-export const filterByField = (games: Game[], field: Field) =>
-  games.filter((game) => game.field === field);
-export const filterSearchByName = (games: Game[], name: string) =>
-  games.filter(
-    (game) => game.matchup[0].includes(name) || game.matchup[1].includes(name),
-  );
-export const filterByDay = (games: Game[], day: string) =>
-  games.filter((game) => {
-    const dayDate = DateTime.fromISO(day);
-    const eventDate = DateTime.fromISO(game.dateTime);
+export const filterByDivision = (games: Game[], divisions: Division[]) =>
+  games.filter((game) => divisions.includes(game.division));
 
-    return eventDate.hasSame(dayDate, 'day');
-  });
+export const filterByField = (games: Game[], fields: Field[]) =>
+  games.filter((game) => fields.includes(game.field));
+
+export const filterSearchByName = (games: Game[], names: string[]) =>
+  games.filter((game) =>
+    names.some((name) =>
+      game.matchup.some((team) =>
+        team.toLowerCase().includes(name.toLowerCase()),
+      ),
+    ),
+  );
+
+export const filterByDay = (games: Game[], days: string[]) =>
+  games.filter((game) =>
+    days.some((day) => {
+      const dayDate = DateTime.fromISO(day);
+      const eventDate = DateTime.fromISO(game.dateTime);
+
+      return eventDate.hasSame(dayDate, 'day');
+    }),
+  );
 
 export const getEventStatus = (game: Game): EventStatus => {
   const now = DateTime.now();
@@ -43,32 +52,59 @@ export const getEventStatus = (game: Game): EventStatus => {
   return 'ended';
 };
 
-export const filterByStatus = (games: Game[], status: EventStatus) =>
-  games.filter((game) => {
-    const gameStatus = getEventStatus(game);
+export const filterByStatus = (games: Game[], statuses: EventStatus[]) =>
+  games.filter((game) => statuses.includes(getEventStatus(game)));
 
-    return gameStatus === status;
-  });
+export const filterData = (data: Game[], filters: ActiveFilter[]) => {
+  const divisions = filters
+    .filter((filter) => filter.filter === 'division')
+    .map((filter) => filter.value as Division);
 
-export const filterData = (data: Game[], filters: ActiveFilter[]) =>
-  filters.reduce((games, activeFilter) => {
-    switch (activeFilter.filter) {
-      case 'division':
-        return filterByDivision(games, activeFilter.value);
+  const fields = filters
+    .filter((filter) => filter.filter === 'field')
+    .map((filter) => filter.value as Field);
 
-      case 'field':
-        return filterByField(games, activeFilter.value);
+  const names = filters
+    .filter((filter) => filter.filter === 'name')
+    .map((filter) => filter.value as string);
 
-      case 'name':
-        return filterSearchByName(games, activeFilter.value);
+  const days = filters
+    .filter((filter) => filter.filter === 'day')
+    .map((filter) => filter.value as string);
 
-      case 'day':
-        return filterByDay(games, activeFilter.value);
+  const statuses = filters
+    .filter((filter) => filter.filter === 'status')
+    .map((filter) => filter.value as EventStatus);
 
-      case 'status':
-        return filterByStatus(games, activeFilter.value);
+  const searches = filters
+    .filter((filter) => filter.filter === 'search')
+    .map((filter) => filter.value as string);
 
-      case 'search':
-        return filterSearchByName(games, activeFilter.value);
-    }
-  }, data);
+  let games = data;
+
+  if (divisions.length) {
+    games = filterByDivision(games, divisions);
+  }
+
+  if (fields.length) {
+    games = filterByField(games, fields);
+  }
+
+  if (names.length) {
+    games = filterSearchByName(games, names);
+  }
+
+  if (days.length) {
+    games = filterByDay(games, days);
+  }
+
+  if (statuses.length) {
+    games = filterByStatus(games, statuses);
+  }
+
+  if (searches.length) {
+    games = filterSearchByName(games, searches);
+  }
+
+  return games;
+};

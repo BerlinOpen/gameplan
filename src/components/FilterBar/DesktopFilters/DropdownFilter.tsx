@@ -1,15 +1,24 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, X } from 'lucide-react';
-import { useFilters } from '../../context/FiltersContext';
-import type { Division, EventStatus, Field, Option } from '../../types/sheets';
-import { filterOptions } from '../../utils/options';
+import { useFilters } from '../../../context/FiltersContext';
+import type {
+  Division,
+  EventStatus,
+  Field,
+  Option,
+} from '../../../types/sheets';
+import { filterOptions } from '../../../utils/options';
 import { createPortal } from 'react-dom';
 
 type DropdownFilterProps = {
   label: string;
   options: Option[];
+
   value?: string;
-  setValue: (newValue: string) => void;
+  setValue?: (newValue: string) => void;
+
+  values?: string[];
+  toggleValue?: (value: string) => void;
 };
 
 const DropdownFilter = ({
@@ -17,6 +26,8 @@ const DropdownFilter = ({
   options,
   value = '',
   setValue,
+  values,
+  toggleValue,
 }: DropdownFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState({
@@ -28,7 +39,8 @@ const DropdownFilter = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const hasSelection = Boolean(value);
+  const isMulti = values !== undefined;
+  const hasSelection = isMulti ? values.length > 0 : Boolean(value);
 
   const updatePosition = () => {
     if (!buttonRef.current) return;
@@ -85,13 +97,25 @@ const DropdownFilter = ({
   }, []);
 
   const handleSelect = (newValue: string) => {
-    setValue(newValue);
-    setIsOpen(false);
+    if (isMulti) {
+      toggleValue?.(newValue);
+    } else {
+      setValue?.(newValue);
+      setIsOpen(false);
+    }
   };
 
-  const handleClear = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClear = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    optionValue: string,
+  ) => {
     event.stopPropagation();
-    setValue('');
+
+    if (isMulti) {
+      toggleValue?.(optionValue);
+    } else {
+      setValue?.('');
+    }
   };
 
   return (
@@ -104,15 +128,13 @@ const DropdownFilter = ({
           className="flex items-center gap-2"
         >
           <span
-            className={`font-medium transition-colors ${
-              hasSelection ? 'text-og-green' : 'text-basic'
-            }`}
+            className={`font-medium transition-colors ${hasSelection ? 'text-og-green' : 'text-basic'}`}
           >
             {label}
           </span>
 
           <ChevronDown
-            size={16}
+            size={20}
             className={`transition-transform duration-200 ${
               hasSelection ? 'text-og-green' : 'text-basic'
             } ${isOpen ? 'rotate-180' : 'rotate-0'}`}
@@ -142,7 +164,9 @@ const DropdownFilter = ({
             "
           >
             {options.map((option) => {
-              const isSelected = option.value === value;
+              const isSelected = isMulti
+                ? values.includes(option.value)
+                : option.value === value;
 
               return (
                 <div
@@ -168,11 +192,11 @@ const DropdownFilter = ({
                   {isSelected && (
                     <button
                       type="button"
-                      onClick={handleClear}
-                      className="ml-2 rounded p-0.5 text-light"
+                      onClick={(e) => handleClear(e, option.value)}
+                      className="ml-2 rounded p-0.5 text-light cursor-pointer"
                       aria-label="Clear selection"
                     >
-                      <X size={14} />
+                      <X size={18} />
                     </button>
                   )}
                 </div>
@@ -214,39 +238,39 @@ export const FieldFilter = () => {
 };
 
 export const NameFilter = () => {
-  const { name, division, setName } = useFilters();
+  const { names, division, toggleName } = useFilters();
 
   return (
     <DropdownFilter
       label="Name"
-      value={name}
-      setValue={(newValue) => setName(newValue)}
+      values={names}
+      toggleValue={toggleName}
       options={filterOptions.name(division)}
     />
   );
 };
 
 export const DayFilter = () => {
-  const { day, setDay } = useFilters();
+  const { days, toggleDay } = useFilters();
 
   return (
     <DropdownFilter
       label="Day"
-      value={day}
-      setValue={(newValue) => setDay(newValue)}
+      values={days}
+      toggleValue={toggleDay}
       options={filterOptions.day}
     />
   );
 };
 
 export const StatusFilter = () => {
-  const { status, setStatus } = useFilters();
+  const { statuses, toggleStatus } = useFilters();
 
   return (
     <DropdownFilter
       label="Status"
-      value={status}
-      setValue={(newValue) => setStatus(newValue as EventStatus)}
+      values={statuses}
+      toggleValue={(value) => toggleStatus(value as EventStatus)}
       options={filterOptions.status}
     />
   );

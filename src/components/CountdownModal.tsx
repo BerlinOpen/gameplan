@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../../assets/Logo.svg';
-import type {
-  CountdownTimerProps,
-  TimeBlockProps,
-  TimeLeft,
-} from '../../types/coming_soon';
-import { glassy } from '../../utils/styling';
+import { createPortal } from 'react-dom';
+import { X } from 'lucide-react';
+import { glassy } from '../utils/styling';
+import logo from '../assets/Logo.svg';
+
+export interface CountdownTimerProps {
+  targetDate: string;
+}
+
+export interface TimeLeft {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+export interface TimeBlockProps {
+  value: string;
+  label: string;
+}
 
 const TimeBlock: React.FC<TimeBlockProps> = ({ value, label }) => (
   <div
@@ -91,41 +104,68 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
   );
 };
 
-const ComingSoon: React.FC = () => {
-  return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-og-yellow">
-      {/* Background Logo */}
-      <div className="absolute top-8 left-1/2 w-4/5 max-w-2xl -translate-x-1/2 md:top-auto md:w-auto">
-        <img
-          src={logo}
-          alt="Berlin Open Logo"
-          className="h-auto w-full object-contain"
-        />
+type CountdownModalProps = {
+  open: boolean;
+  onClose: () => void;
+};
+
+export const CountdownModal = ({ open, onClose }: CountdownModalProps) => {
+  if (!open) return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-50">
+      {/* Backdrop */}
+      <div
+        className="
+          absolute inset-0
+          bg-og-yellow/20
+          backdrop-blur-sm
+          transition-opacity
+        "
+        onClick={onClose}
+      />
+
+      {/* Modal */}
+      <div className="relative flex h-full items-center justify-center p-4">
+        <section
+          className={`
+            relative
+            w-full
+            max-w-md
+            rounded-3xl
+            p-8
+            shadow-2xl
+            flex
+            flex-col
+            items-center
+            ${glassy}
+          `}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={onClose}
+            className="absolute right-4 top-4 rounded-full p-2 hover:bg-white/20 cursor-pointer"
+            aria-label="Close"
+          >
+            <X size={20} className="text-og-red" />
+          </button>
+
+          <img
+            src={logo}
+            alt="Berlin Open Logo"
+            className="h-100 w-full object-contain"
+          />
+
+          <p className="mt-4 font-['Chewy'] text-2xl font-semibold text-og-red">
+            in
+          </p>
+
+          <CountdownTimer targetDate="2026-07-17T23:59:59" />
+        </section>
       </div>
-
-      {/* Glass Panel */}
-      <section
-        className={`relative
-          z-10
-          mt-auto
-          w-full
-          rounded-t-[3rem]
-          p-8
-          text-center
-          md:mt-0
-          md:max-w-md
-          md:rounded-3xl ${glassy} !shadow-2xl`}
-      >
-        <h1 className="font-['Chewy'] text-4xl text-og-red">GAME PLAN ⬇️</h1>
-
-        <p className="font-['Chewy'] mt-4 text-2xl font-semibold text-og-red">
-          Berlin Open in
-        </p>
-
-        <CountdownTimer targetDate="2026-07-17T23:59:59" />
-      </section>
-    </main>
+    </div>,
+    document.body,
   );
 };
 
-export default ComingSoon;
+export default CountdownModal;

@@ -17,9 +17,9 @@ export const EmptyState = ({
         </div>
       </div>
 
-      <h2 className="text-lg font-bold">{title}</h2>
+      <h1 className="font-bold">{title}</h1>
 
-      <p className="max-w-md text-sm text-light">{message}</p>
+      <h2 className="max-w-md text-light">{message}</h2>
     </div>
   );
 };

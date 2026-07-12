@@ -1,24 +1,25 @@
 import { useFilters } from '../../context/FiltersContext';
 import { filterOptions } from '../../utils/options';
-import { Tag } from './Tag';
+import { Tag } from '../Tag';
 
 export const ActiveFilters = () => {
   const {
     filters,
     setDivision,
     setField,
-    setName,
-    setDay,
-    setStatus,
+    toggleName,
+    toggleDay,
+    toggleStatus,
     division,
+    clearFilters,
   } = useFilters();
 
   const filterHandler = {
     division: setDivision,
     field: setField,
-    name: setName,
-    day: setDay,
-    status: setStatus,
+    name: toggleName,
+    day: toggleDay,
+    status: toggleStatus,
   };
 
   const formattedFilters = filters
@@ -38,8 +39,9 @@ export const ActiveFilters = () => {
         filter: filter
           .replace(/([A-Z])/g, ' $1')
           .replace(/^./, (char) => char.toUpperCase()),
-        value: formattedValue.label,
-        handler: () => filterHandler[filter](undefined),
+        label: formattedValue.label,
+        value: formattedValue.value,
+        handler: filterHandler[filter],
       };
     })
     .filter(
@@ -48,25 +50,32 @@ export const ActiveFilters = () => {
       ): item is {
         filter: string;
         value: string;
-        handler: () => void;
+        label: string;
+        handler: (option?: string) => void;
       } => item !== undefined,
     );
 
   if (formattedFilters.length === 0) return;
 
   return (
-    <div className="flex gap-3 items-center py-2">
+    <div className="flex gap-3 items-center py-2 flex-wrap">
       <p>Filters:</p>
-      {formattedFilters.map(({ filter, value, handler }) => {
+      {formattedFilters.map(({ filter, label, value, handler }) => {
+        const isSingle = filter === 'Division' || filter === 'Field';
         return (
-          <Tag onClose={handler}>
+          <Tag
+            key={`active - ${value}`}
+            onClose={() => handler(isSingle ? undefined : value)}
+          >
             <div className="flex gap-1">
               <p className="text-light">{filter}:</p>
-              <p>{value}</p>
+              <p>{label}</p>
             </div>
           </Tag>
         );
       })}
+
+      <Tag onClose={clearFilters}>Clear all</Tag>
     </div>
   );
 };

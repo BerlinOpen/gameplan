@@ -1,5 +1,5 @@
 import type { Game } from '../../types/sheets';
-import { Tag } from '../FilterBar/Tag';
+import { Tag } from '../Tag';
 import { filterOptions } from '../../utils/options';
 import { getEventStatus } from '../../utils/filters';
 import { glassy } from '../../utils/styling';

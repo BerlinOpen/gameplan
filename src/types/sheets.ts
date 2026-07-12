@@ -51,3 +51,10 @@ export type Option = {
   value: string;
   label: string;
 };
+
+export type PlacementData = string[];
+
+export type LeaderboardT = {
+  lowPlacement: PlacementData;
+  highPlacement: PlacementData;
+};

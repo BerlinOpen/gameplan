@@ -9,7 +9,7 @@ export const SearchInput = () => {
   };
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative md:w-64 w-full flex items-center">
       <Search size={16} className="absolute left-3 text-light" />
 
       <input
@@ -32,6 +32,8 @@ export const SearchInput = () => {
           focus:border-og-green
           placeholder-light
           text-basic
+
+          shadow-md
         "
       />
 
@@ -48,6 +50,7 @@ export const SearchInput = () => {
             rounded-full
             text-basic
             hover:text-og-green
+            cursor-pointer
           "
           aria-label="Clear search"
         >

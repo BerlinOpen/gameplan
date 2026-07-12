@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { X } from 'lucide-react';
-import { glassy } from '../../utils/styling';
+import { glassy } from '../utils/styling';
 
 type TagProps = {
   children: ReactNode;
@@ -34,6 +34,7 @@ export const Tag = ({ children, onClose }: TagProps) => {
             opacity-60
             transition-opacity
             hover:opacity-100
+            cursor-pointer
           "
           aria-label="Remove tag"
         >
