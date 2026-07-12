@@ -8,7 +8,7 @@ export const EmptyState = ({
   message = 'Even the lacrosse balls are hiding from the summer heat. 🥍 ',
 }: EmptyStateProps) => {
   return (
-    <div className="flex-1 z-50 flex flex-col items-center justify-center gap-6 bg-og-yellow/90">
+    <div className="flex-1 z-50 flex flex-col items-center justify-center gap-6">
       <div className="relative h-20 w-20">
         <div className="absolute bottom-0 left-1/2 h-3 w-12 -translate-x-1/2 rounded-full bg-black/50 blur-sm" />
 

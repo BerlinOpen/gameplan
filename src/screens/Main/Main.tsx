@@ -1,4 +1,3 @@
-import { ImageContainer } from '../../components/ImageContainer';
 import { GamePlan } from './components/GamePlan';
 import { useGoogleSheets } from '../../hooks/useGoogleSheets';
 import { formatData } from '../../utils/formatData';
@@ -24,19 +23,18 @@ export const Main = () => {
 
   if (!processedData || error)
     return (
-      <ImageContainer
-        imageContainerClasses="h-screen"
-        imageShadowClasses="flex"
-      >
-        <EmptyState />
-      </ImageContainer>
+      <div className="h-screen">
+        <div className="flex">
+          <EmptyState />
+        </div>
+      </div>
     );
 
   const { games, leaderboard } = processedData;
 
   return (
     <div className="flex h-screen flex-col overflow-hidden">
-      <header className="py-4 md:mx-8 mx-4 bg-og-yellow sticky top-0">
+      <header className="py-4 md:mx-8 mx-4 sticky top-0">
         <h2 className="flex items-center gap-2 uppercase tracking-wider cursor-pointer">
           {headers.map((header, index) => (
             <React.Fragment key={header.value}>

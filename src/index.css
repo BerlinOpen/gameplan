@@ -8,6 +8,11 @@
   --color-light: #ababab;
   --color-hover: #f0f0f0;
 }
+/* 
+.dark {
+  --color-bg: rgb(59 59 59);
+  --color-text: rgb(255 255 255);
+} */
 
 html,
 body,
@@ -18,18 +23,22 @@ body,
   font-family: 'Roboto', sans-serif;
   color: #3b3b3b;
   overflow-y: auto;
+}
+
+html {
   background-color: #fff2bd;
 }
 
-.ImageHolder {
+body {
   background-image: url('./assets/Logo.svg');
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 60%;
+  background-size: auto 80%;
 }
 
-.ImageShadow {
+#root {
   background: rgba(255, 242, 189, 0.5);
+  /* background: rgba(59, 59, 59, 0.7); */
 }
 
 @layer utilities {

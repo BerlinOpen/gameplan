@@ -1,4 +1,3 @@
-import { ImageContainer } from '../../../components/ImageContainer';
 import type { LeaderboardT, PlacementData } from '../../../types/sheets';
 import { glassy } from '../../../utils/styling';
 
@@ -6,10 +5,9 @@ export const LeaderBoard = ({ leaderboard }: { leaderboard: LeaderboardT }) => {
   const { lowPlacement, highPlacement } = leaderboard;
 
   return (
-    <ImageContainer
-      imageContainerClasses="h-[calc(100vh-56px)]"
-      imageShadowClasses="
-        flex
+    <div className="h-[calc(100dvh-56px)]">
+      <div
+        className="min-h-full flex
         flex-wrap
         justify-center
         gap-12
@@ -18,12 +16,12 @@ export const LeaderBoard = ({ leaderboard }: { leaderboard: LeaderboardT }) => {
         overflow-y-auto
         px-4
         md:px-8
-        py-8
-      "
-    >
-      <Table placements={lowPlacement} title="placement low contact" />
-      <Table placements={highPlacement} title="placement high contact" />
-    </ImageContainer>
+        py-8"
+      >
+        <Table placements={lowPlacement} title="placement low contact" />
+        <Table placements={highPlacement} title="placement high contact" />
+      </div>
+    </div>
   );
 };
 
