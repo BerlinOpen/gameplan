@@ -14,7 +14,7 @@ export const DayTimeline = ({ date, games }: Props) => {
 
   return (
     <div>
-      <h2 className="tracking-wider sticky top-0 z-20 bg-og-yellow w-fit rounded-md">
+      <h2 className="tracking-wider sticky top-0 z-21 bg-og-yellow w-fit rounded-md">
         <strong className="uppercase">{date}</strong>
         {date === 'Sunday' &&
           ` (Please mind final game plan is decided after Saturday's last game)`}
