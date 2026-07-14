@@ -7,7 +7,7 @@
   --color-og-green: #6b923f;
   --color-basic: #3b3b3b;
   --color-light: #ababab;
-  --color-hover: #767262;
+  --color-hover: #fff2bd;
   --color-opposite: #f0f0f0;
 }
 
@@ -19,7 +19,7 @@
     --color-og-green: #a4db5c;
     --color-basic: #f0f0f0;
     --color-light: #ababab;
-    --color-hover: #f0f0f0;
+    --color-hover: #767262;
     --color-opposite: #3b3b3b;
   }
 }
