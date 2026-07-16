@@ -156,7 +156,7 @@ export const CountdownModal = ({ open, onClose }: CountdownModalProps) => {
             in
           </p>
 
-          <CountdownTimer targetDate="2026-07-17T23:59:59" />
+          <CountdownTimer targetDate="2026-07-16T23:59:59" />
         </section>
       </div>
     </div>,
