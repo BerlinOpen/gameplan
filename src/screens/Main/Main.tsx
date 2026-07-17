@@ -3,7 +3,8 @@ import { useGoogleSheets } from '../../hooks/useGoogleSheets';
 import { formatData } from '../../utils/formatData';
 import { EmptyState } from '../Empty';
 import { LoadingScreen } from '../Loading';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { DateTime } from 'luxon';
 import { LeaderBoard } from './components/LeaderBoard';
 
 type Header = { value: 'gamePlan' | 'results'; label: string };
@@ -16,6 +17,27 @@ const headers: Header[] = [
 export const Main = () => {
   const { data, error, isLoading } = useGoogleSheets();
   const [tabType, setTabType] = useState<'gamePlan' | 'results'>('gamePlan');
+
+  useEffect(() => {
+    const now = DateTime.now();
+    const next = now
+      .plus({ hours: 1 })
+      .set({ minute: 1, second: 0, millisecond: 0 });
+    const msUntilNext = next.diff(now).toMillis();
+
+    const timeout = setTimeout(() => {
+      window.location.reload();
+    }, msUntilNext);
+
+    const interval = setInterval(() => {
+      window.location.reload();
+    }, 3600000);
+
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+  }, []);
 
   if (isLoading) return <LoadingScreen />;
 
