@@ -21,7 +21,7 @@ export const DayTimeline = ({ date, games }: Props) => {
       </h2>
 
       {Object.entries(grouped).map(([time, games]) => (
-        <TimeGroup key={time} time={time} games={games ?? []} />
+        <TimeGroup key={time} date={date} time={time} games={games ?? []} />
       ))}
     </div>
   );

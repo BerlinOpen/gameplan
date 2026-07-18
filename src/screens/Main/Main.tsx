@@ -17,9 +17,29 @@ const headers: Header[] = [
 export const Main = () => {
   const { data, error, isLoading } = useGoogleSheets();
   const [tabType, setTabType] = useState<'gamePlan' | 'results'>('gamePlan');
+  const processedData = data ? formatData(data) : null;
+
+  const scrollToCurrentHour = () => {
+    const now = DateTime.now();
+    const dayNames = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
+    const dayName = dayNames[now.weekday - 1];
+    const hour = String(now.hour).padStart(2, '0');
+    const el = document.getElementById(`${dayName}-${hour}:00`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
 
   useEffect(() => {
     const now = DateTime.now();
+    scrollToCurrentHour();
+
     const next = now
       .plus({ hours: 1 })
       .set({ minute: 1, second: 0, millisecond: 0 });
@@ -39,9 +59,12 @@ export const Main = () => {
     };
   }, []);
 
-  if (isLoading) return <LoadingScreen />;
+  useEffect(() => {
+    if (isLoading || !processedData) return;
+    scrollToCurrentHour();
+  }, [isLoading, processedData]);
 
-  const processedData = formatData(data);
+  if (isLoading) return <LoadingScreen />;
 
   if (!processedData || error)
     return (

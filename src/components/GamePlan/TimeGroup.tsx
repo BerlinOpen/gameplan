@@ -2,16 +2,17 @@ import type { Game } from '../../types/sheets';
 import { GameCard } from './GameCard';
 
 type Props = {
+  date: string;
   time: string;
   games: Game[];
 };
 
-export const TimeGroup = ({ time, games }: Props) => {
+export const TimeGroup = ({ date, time, games }: Props) => {
   const isFinalHigh = games.some((game) => !!game.finalHigh);
   const isFinalLow = games.some((game) => !!game.finalLow);
 
   return (
-    <div>
+    <div id={`${date}-${time}`}>
       {/* Time */}
       <h2 className="tracking-wider sticky top-12 md:top-6 z-20 bg-og-yellow w-fit rounded-md">
         <strong className="uppercase">{time}</strong>
